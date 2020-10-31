@@ -1,0 +1,118 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "automationAccountName": {
+        "type": "string",
+        "metadata": {
+          "description": "Automation account name"
+        }
+      },
+      "automationAccountLocation": {
+        "type": "string",
+        "defaultValue": "westus2",
+        "metadata": {
+          "description": "Specifies the location in which to create the Automation account."
+        }
+      },
+      "AlertsPowerShellRunbookName": {
+        "type": "String",
+        "defaultValue": "SetAzAlertsStatus-Webhook"
+      },
+      "AlertsPowerShellRunbookDescription": {
+        "type": "String",
+        "defaultValue": "Uses the Webhook feature to find all virtual machines alerts and set their state "
+      },
+      "_artifactsLocation": {
+        "type": "string",
+        "defaultValue": "https://raw.githubusercontent.com/DaFitRobsta/PowerShell/master/Alerts/",
+        "metadata": {
+          "description": "URI to artifacts location"
+        }
+      },
+      "_artifactsLocationSasToken": {
+        "type": "securestring",
+        "defaultValue": "",
+        "metadata": {
+          "description": "The sasToken required to access _artifactsLocation.  When the template is deployed using the accompanying scripts, a sasToken will be automatically generated"
+        }
+      }
+    },
+    "variables": {
+        "modules": [
+            {
+                "name": "Az.Monitor",
+                "url": "https://www.powershellgallery.com/api/v2/package/Az.Monitor/2.2.0"
+            },
+            {
+                "name": "Az.ResourceGraph",
+                "url": "https://www.powershellgallery.com/api/v2/package/Az.ResourceGraph/0.7.7"
+            }
+        ]
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Automation/automationAccounts",
+        "apiVersion": "2015-10-31",
+        "name": "[parameters('automationAccountName')]",
+        "location": "[parameters('automationAccountLocation')]",
+        "properties": {
+          "sku": {
+            "name": "Basic"
+          }
+        },
+        "resources": [
+          {
+            "type": "runbooks",
+            "apiVersion": "2018-06-30",
+            "name": "[parameters('AlertsPowerShellRunbookName')]",
+            "location": "[parameters('automationAccountLocation')]",
+            "dependsOn": [
+              "[parameters('automationAccountName')]"
+            ],
+            "properties": {
+              "runbookType": "PowerShell",
+              "logProgress": "false",
+              "logVerbose": "false",
+              "description": "[parameters('AlertsPowerShellRunbookDescription')]",
+              "publishContentLink": {
+                "uri": "[uri(parameters('_artifactsLocation'), concat('scripts/SetAzAlertsStatus-Webhook.ps1', parameters('_artifactsLocationSasToken')))]",
+                "version": "1.0.0.0"
+              }
+            }
+          },
+          {
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "apiVersion": "2015-10-31",
+            "name": "[concat(parameters('automationAccountName'), '/Az.Accounts')]",
+            "dependsOn": [
+                "[parameters('automationAccountName')]"
+            ],
+            "properties": {
+                "contentLink": {
+                    "uri": "https://www.powershellgallery.com/api/v2/package/Az.Accounts/2.1.0"
+                }
+            }
+            }
+        ]
+      },
+        {
+        "type": "Microsoft.Automation/automationAccounts/modules",
+        "apiVersion": "2015-10-31",
+        "name": "[concat(parameters('automationAccountName'), '/', variables('modules')[copyIndex()].name)]",
+        "dependsOn": [
+            "[resourceId('Microsoft.Automation/automationAccounts/',parameters('automationAccountName'))]",
+            "[resourceId('Microsoft.Automation/automationAccounts/modules/',parameters('automationAccountName'), 'Az.Accounts')]"
+        ],
+        "copy": {
+            "name": "modulesLoop",
+            "count": "[length(variables('modules'))]"
+        },
+        "properties": {
+            "contentLink": {
+                "uri": "[variables('modules')[copyIndex()].url]"
+            }
+        }
+    }
+    ]
+  }
