@@ -36,14 +36,13 @@ Starter Resource Graph query samples <https://docs.microsoft.com/en-us/azure/gov
 Param
 (
     [Parameter (Mandatory = $false)]
-    [object] $WebhookData
+    [object] $WebhookData,
+    [Parameter(Mandatory=$false)]
+    [string] $AzureEnvironment = "AzureUSGovernment",      # Values include AzureCloud, AzureChinaCloud, AzureGermanCloud, AzureUSGovernment
+    [Parameter(Mandatory=$false)]
+    [string] $LBRuleName = "Load Balancing Rule Name"
 ) # end param
 $ErrorActionPreference = "stop"
-# Set the Azure Cloud Environment, defaults to AzureCloud if not used in Connect-AzConnect
-# Vaules include AzureCloud, AzureChinaCloud, AzureGermanCloud, AzureUSGovernment
-$AzureEnvironment = "AzureUSGovernment"
-# Identify which rule we'll be updating.
-$LBRule = "LBRule"
 
 # Determine if called from a WebHook
 if ($WebhookData) {
@@ -72,24 +71,6 @@ if ($WebhookData) {
                 $backendPoolAddress = $dimension.value
             }
         }        
-    }
-    elseif ($schemaId -eq "AzureMonitorMetricAlert") {
-        # This is the near-real-time Metric Alert schema
-        $AlertContext = [object] ($WebhookBody.data).context
-        $SubId = $AlertContext.subscriptionId
-        $ResourceGroupName = $AlertContext.resourceGroupName
-        $ResourceType = $AlertContext.resourceType
-        $ResourceName = $AlertContext.resourceName
-        $status = ($WebhookBody.data).status
-    }
-    elseif ($schemaId -eq "Microsoft.Insights/activityLogs") {
-        # This is the Activity Log Alert schema
-        $AlertContext = [object] (($WebhookBody.data).context).activityLog
-        $SubId = $AlertContext.subscriptionId
-        $ResourceGroupName = $AlertContext.resourceGroupName
-        $ResourceType = $AlertContext.resourceType
-        $ResourceName = (($AlertContext.resourceId).Split("/"))[-1]
-        $status = ($WebhookBody.data).status
     }
     elseif ($schemaId -eq $null) {
         # This is the original Metric Alert schema
@@ -155,7 +136,7 @@ if ($WebhookData) {
                 
                 # Get existing rule configuration and store them away
                 $slb = Get-AzLoadBalancer -Name $ResourceName -ResourceGroupName $ResourceGroupName
-                $slbRule = (Get-AzLoadBalancer -Name $ResourceName | Get-AzLoadBalancerRuleConfig -Name $LBRule)
+                $slbRule = (Get-AzLoadBalancer -Name $ResourceName | Get-AzLoadBalancerRuleConfig -Name $LBRuleName)
                 $slbProbeName = ($slbRule.probe.id).tostring().split("/")[-1]
                 $slbProtocol = $slbRule.Protocol
                 $slbFEPort = $slbRule.FrontendPort
@@ -175,7 +156,7 @@ if ($WebhookData) {
                         $Nic = Get-AzNetworkInterface -ResourceId ($bePool.BackendIpConfigurations.id).Substring(0, ($bePool.BackendIpConfigurations.id).LastIndexOf("ipConfigurations") - 1)
                         $IPAddress = (Get-AzNetworkInterfaceIpConfig -NetworkInterface $Nic).PrivateIpAddress
                         if($IPAddress -ne $backendPoolAddress){
-                            $slb | Set-AzLoadBalancerRuleConfig -Name $LBRule -BackendAddressPool $bePool -FrontendIpConfiguration $slb.FrontendIpConfigurations[0] -Protocol $slbProtocol -FrontendPort $slbFEPort -BackendPort $slbBEPort -Probe $slbProbe
+                            $slb | Set-AzLoadBalancerRuleConfig -Name $LBRuleName -BackendAddressPool $bePool -FrontendIpConfiguration $slb.FrontendIpConfigurations[0] -Protocol $slbProtocol -FrontendPort $slbFEPort -BackendPort $slbBEPort -Probe $slbProbe
                             $slb | Set-AzLoadBalancer
                             "Backend Pool set to - $($bePool.Name)"
                         }
