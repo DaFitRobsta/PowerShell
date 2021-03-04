@@ -1,0 +1,51 @@
+{
+    "schemaId": "azureMonitorCommonAlertSchema",
+    "data": {
+        "essentials": {
+            "alertId": "/subscriptions/5a201797-adc9-4a00-8562-94b13e2841fe/providers/Microsoft.AlertsManagement/alerts/bcb93505-8aca-4252-b22d-224e8027d590",
+            "alertRule": "ozwebSrv1-failed-probe",
+            "severity": "Sev0",
+            "signalType": "Metric",
+            "monitorCondition": "Fired",
+            "monitoringService": "Platform",
+            "alertTargetIDs": [
+                "/subscriptions/5a201797-adc9-4a00-8562-94b13e2841fe/resourcegroups/rg-oz-usgaz-dmo-02/providers/microsoft.network/loadbalancers/ozwebsrvlb"
+            ],
+            "originAlertId": "5a201797-adc9-4a00-8562-94b13e2841fe_RG-OZ-USGAZ-DMO-02_microsoft.insights_metricAlerts_ozwebSrv1-failed-probe_-907994620",
+            "firedDateTime": "2021-01-25T19:56:32.1243081Z",
+            "description": "Create an alert when ozwebSrv1 fails a health probe",
+            "essentialsVersion": "1.0",
+            "alertContextVersion": "1.0"
+        },
+        "alertContext": {
+            "properties": null,
+            "conditionType": "SingleResourceMultipleMetricCriteria",
+            "condition": {
+                "windowSize": "PT1M",
+                "allOf": [
+                    {
+                        "metricName": "DipAvailability",
+                        "metricNamespace": "Microsoft.Network/loadBalancers",
+                        "operator": "LessThan",
+                        "threshold": "100",
+                        "timeAggregation": "Average",
+                        "dimensions": [
+                            {
+                                "name": "LoadBalancerArmId",
+                                "value": "02aa378e-5b74-4732-819f-32cbd1b3c7ca"
+                            },
+                            {
+                                "name": "CaAddress",
+                                "value": "10.0.0.5"
+                            }
+                        ],
+                        "metricValue": 33.3333333333333,
+                        "webTestName": null
+                    }
+                ],
+                "windowStartTime": "2021-01-25T19:52:16.77Z",
+                "windowEndTime": "2021-01-25T19:53:16.77Z"
+            }
+        }
+    }
+}

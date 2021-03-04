@@ -1,0 +1,133 @@
+{
+    "schemaId": "Microsoft.Insights/LogAlert",
+    "data": {
+        "alertname": "SecretGetV2",
+        "IncludeSearchResults": true,
+        "SearchResults": {
+            "tables": [
+                {
+                    "name": "PrimaryResult",
+                    "columns": [
+                        {
+                            "name": "TimeGenerated",
+                            "type": "datetime"
+                        },
+                        {
+                            "name": "Resource",
+                            "type": "string"
+                        },
+                        {
+                            "name": "OperationName",
+                            "type": "string"
+                        },
+                        {
+                            "name": "requestUri_s",
+                            "type": "string"
+                        },
+                        {
+                            "name": "CallerIPAddress",
+                            "type": "string"
+                        },
+                        {
+                            "name": "identity_claim_http_schemas_microsoft_com_identity_claims_objectidentifier_g",
+                            "type": "string"
+                        }
+                    ],
+                    "rows": [
+                        [
+                            "2021-03-02T18:53:52.363Z",
+                            "KEYVAULT-ADMIN",
+                            "SecretGet",
+                            "https://keyvault-admin.vault.azure.net/secrets/Salesforce?api-version=7.0&_=1614696072918",
+                            "47.215.197.68",
+                            "4d23a05e-af69-4f33-9053-80bada4d45a7"
+                        ],
+                        [
+                            "2021-03-02T18:53:53.603Z",
+                            "KEYVAULT-ADMIN",
+                            "SecretGet",
+                            "https://keyvault-admin.vault.azure.net/secrets/Salesforce/11852e2af21647e7b7f3dd79c72a2935?api-version=7.0&_=1614696072920",
+                            "47.215.197.68",
+                            "4d23a05e-af69-4f33-9053-80bada4d45a7"
+                        ]
+                    ]
+                }
+            ],
+            "statistics": {
+                "query": {
+                    "executionTime": 0.0312473,
+                    "resourceUsage": {
+                        "cache": {
+                            "memory": {
+                                "hits": 0,
+                                "misses": 0,
+                                "total": 0
+                            },
+                            "disk": {
+                                "hits": 0,
+                                "misses": 0,
+                                "total": 0
+                            },
+                            "shards": {
+                                "hot": {
+                                    "hitbytes": 0,
+                                    "missbytes": 0,
+                                    "retrievebytes": 0
+                                },
+                                "cold": {
+                                    "hitbytes": 0,
+                                    "missbytes": 0,
+                                    "retrievebytes": 0
+                                },
+                                "bypassbytes": 0
+                            }
+                        },
+                        "cpu": {
+                            "user": "00:00:00.0156250",
+                            "kernel": "00:00:00",
+                            "totalCpu": "00:00:00.0156250"
+                        },
+                        "memory": {
+                            "peakPerNode": 47594144
+                        }
+                    },
+                    "inputDatasetStatistics": {
+                        "extents": {
+                            "total": 0,
+                            "scanned": 0,
+                            "scannedMinDatetime": "0001-01-01T00:00:00Z",
+                            "scannedMaxDatetime": "0001-01-01T00:00:00Z"
+                        },
+                        "rows": {
+                            "total": 0,
+                            "scanned": 0
+                        },
+                        "rowstores": {
+                            "scannedRows": 2849,
+                            "scannedValuesSize": 3335400
+                        },
+                        "shards": {
+                            "queriesGeneric": 0,
+                            "queriesSpecialized": 0
+                        }
+                    },
+                    "datasetStatistics": [
+                        {
+                            "tableRowCount": 2,
+                            "tableSize": 373
+                        }
+                    ]
+                }
+            },
+            "dataSources": [
+                {
+                    "resourceId": "/subscriptions/1571edd9-06e6-4031-8871-8e3bef11fce0/resourcegroups/admin/providers/microsoft.operationalinsights/workspaces/surelight-law",
+                    "region": "westus2",
+                    "tables": [
+                        "AzureDiagnostics"
+                    ]
+                }
+            ]
+        }
+    }
+}

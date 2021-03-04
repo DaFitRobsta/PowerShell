@@ -1,0 +1,12 @@
+{
+    "WebhookName": "Alert1611604148536",
+    "RequestBody": "{\"schemaId\":\"azureMonitorCommonAlertSchema\",\"data\":{\"essentials\":{\"alertId\":\"/subscriptions/5a201797-adc9-4a00-8562-94b13e2841fe/providers/Microsoft.AlertsManagement/alerts/43eee4a5-9f05-47fb-aa1e-f8443f529dcb\",\"alertRule\":\"ozwebSrv1-failed-probe\",\"severity\":\"Sev0\",\"signalType\":\"Metric\",\"monitorCondition\":\"Fired\",\"monitoringService\":\"Platform\",\"alertTargetIDs\":[\"/subscriptions/5a201797-adc9-4a00-8562-94b13e2841fe/resourcegroups/rg-oz-usgaz-dmo-02/providers/microsoft.network/loadbalancers/ozwebsrvlb\"],\"originAlertId\":\"5a201797-adc9-4a00-8562-94b13e2841fe_RG-OZ-USGAZ-DMO-02_microsoft.insights_metricAlerts_ozwebSrv1-failed-probe_-907994620\",\"firedDateTime\":\"2021-01-25T21:21:26.5571832Z\",\"description\":\"Create an alert when ozwebSrv1 fails a health probe\",\"essentialsVersion\":\"1.0\",\"alertContextVersion\":\"1.0\"},\"alertContext\":{\"properties\":null,\"conditionType\":\"SingleResourceMultipleMetricCriteria\",\"condition\":{\"windowSize\":\"PT1M\",\"allOf\":[{\"metricName\":\"DipAvailability\",\"metricNamespace\":\"Microsoft.Network/loadBalancers\",\"operator\":\"LessThan\",\"threshold\":\"100\",\"timeAggregation\":\"Average\",\"dimensions\":[{\"name\":\"LoadBalancerArmId\",\"value\":\"02aa378e-5b74-4732-819f-32cbd1b3c7ca\"},{\"name\":\"CaAddress\",\"value\":\"10.0.0.5\"}],\"metricValue\":66.6666666666667,\"webTestName\":null}],\"windowStartTime\":\"2021-01-25T21:17:18.808Z\",\"windowEndTime\":\"2021-01-25T21:18:18.808Z\"}}}}",
+    "RequestHeader": {
+        "Connection": "Keep-Alive",
+        "Expect": "100-continue",
+        "Host": "be8ee5d5-8990-4fca-a737-af76d2f40a1d.webhook.phx.azure-automation.us",
+        "User-Agent": "IcMBroadcaster/1.0",
+        "X-CorrelationContext": "RkkKACgAAAACAAAAEACI0/nvQiWHTZJ6MgOkfrftAQAQAOrvk1CEzqpFl/P6jlGg3SU=",
+        "x-ms-request-id": "73965a14-0eb6-41d8-b699-d8688d4ed140"
+    }
+}
