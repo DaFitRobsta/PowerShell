@@ -1,5 +1,5 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "alertName": {
@@ -152,7 +152,8 @@
                     "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
                     "allOf": [
                         {
-                            "name" : "1st criterion",
+                            "criterionType":"StaticThresholdCriterion",
+                            "name" : "Metric1",
                             "metricName": "[parameters('metricName')]",
                             "metricNamespace": "[parameters('metricNamespace')]",
                             "dimensions":[
