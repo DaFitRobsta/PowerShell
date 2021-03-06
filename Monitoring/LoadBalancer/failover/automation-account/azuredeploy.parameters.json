@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "automationAccountName": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "automationAccountLocation": {
+            "value": "westus2"
+        },
+        "PowerShellRunbookName": {
+            "value": "Set-SLB-BackendPool"
+        },
+        "PowerShellRunbookDescription": {
+            "value": "Sets the Standard Load Balancer Backend Address Pool to the passive server"
+        },
+        "PowerShellRunbookWebhookName": {
+            "value": "Set-SLB-BackendPool-Webhook"
+        },
+        "WebhookExpiryTime": {
+            "value": "1/1/2050"
+        },
+        "_artifactsLocation": {
+            "value": "https://raw.githubusercontent.com/DaFitRobsta/PowerShell/master/Alerts/"
+        },
+        "_artifactsLocationSasToken": {
+            "value": ""
+        }
+    }
+}
