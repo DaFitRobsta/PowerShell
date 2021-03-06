@@ -2,13 +2,13 @@
 
 <#
 .Synopsis
-
-Through Automation Account Runbook Webhook, determine if we need to switch the backend pool of a load balancer.
+Alter the default behavior of an Azure Standard Load Balance to Active/Passive.  In order to support this behavior,
+there must be at least two backend address pools defined, each with a single server defined.
+The Automation Account Runbook Webhook will be called from an Alert action group where the runbook will determine
+which backend pool to set for the load balancer.
 
 Reference links:
 Azure Monitor PowerShell samples <https://docs.microsoft.com/en-us/azure/azure-monitor/samples/powershell-samples>
-Starter Resource Graph query samples <https://docs.microsoft.com/en-us/azure/governance/resource-graph/samples/starter>
-
 
 .Requirements
     Az.Accounts
