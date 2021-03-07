@@ -1,0 +1,78 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "automationAccountName": {
+            "value": "aaa-oz-usgaz-dmo-02" // TODO: Fill in parameter value
+        },
+        "automationAccountLocation": {
+            "value": "usgovarizona"
+        },
+        "PowerShellRunbookName": {
+            "value": "Set-SLB-BackendPool"
+        },
+        "PowerShellRunbookDescription": {
+            "value": "Sets the Standard Load Balancer's Backend Address Pool to the passive server"
+        },
+        "PowerShellRunbookWebhookName": {
+            "value": "Set-SLB-BackendPool-Webhook"
+        },
+        "WebhookExpiryTime": {
+            "value": "1/1/2050"
+        },
+        "AzureEnvironment": {
+            "value": "AzureUSGovernment"
+        },
+        "LoadBalancerRuleName": {
+            "value": "inside-out"
+        },
+        "_artifactsLocationSasToken": {
+            "value": ""
+        },
+        "alertName": {
+            "value": "slb-backend-pool-failure" 
+        },
+        "alertDescription": {
+            "value": "Detects when backend address pool fails and invokes an automation runbook"
+        },
+        "alertSeverity": {
+            "value": 3
+        },
+        "isEnabled": {
+            "value": true
+        },
+        "resourceId": {
+            "value": "/subscriptions/5a201797-adc9-4a00-8562-94b13e2841fe/resourceGroups/rg-oz-usgaz-dmo-02/providers/Microsoft.Network/loadBalancers/ilb-oz-usgaz-dmo-01"
+        },
+        "metricName": {
+            "value": "DipAvailability" 
+        },
+        "metricNamespace": {
+            "value": "Microsoft.Network/loadBalancers"
+        },
+        "operator": {
+            "value": "LessThan"
+        },
+        "threshold": {
+            "value": "100"
+        },
+        "timeAggregation": {
+            "value": "Average"
+        },
+        "windowSize": {
+            "value": "PT5M"
+        },
+        "evaluationFrequency": {
+            "value": "PT1M"
+        },
+        "actionGroupId": {
+            "value": ""
+        },
+        "actionGroupName": {
+            "value": "ag-aaa-setlb-backend"
+        },
+        "actionGroupShortName": {
+            "value": "ag-setlb-be"
+        }
+    }
+}
