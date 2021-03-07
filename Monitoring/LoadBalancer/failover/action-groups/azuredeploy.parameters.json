@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "actionGroupName": {
+            "value": "ag-aaa-setlb-backend"
+        },
+        "actionGroupShortName": {
+            "value": "ag-setlb-be"
+        },
+        "automationAccountId": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "runbookName": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "webhookResourceId": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "webhookName": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "webhookUri": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "useCommonAlertSchema": {
+            "value": true
+        }
+    }
+}

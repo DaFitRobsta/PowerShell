@@ -25,6 +25,12 @@
         },
         "_artifactsLocationSasToken": {
             "value": ""
+        },
+        "AzureEnvironment": {
+            "value": "AzureUSGovernment"
+        },
+        "LoadBalancerRuleName": {
+            "value": "inside-out"
         }
     }
 }

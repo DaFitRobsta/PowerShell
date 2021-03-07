@@ -1,0 +1,315 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+    "automationAccountName": {
+        "type": "string",
+        "metadata": {
+          "description": "Automation account name"
+        }
+      },
+      "automationAccountLocation": {
+        "type": "string",
+        "defaultValue": "westus2",
+        "metadata": {
+          "description": "Specifies the location in which to create the Automation account."
+        }
+      },
+      "PowerShellRunbookName": {
+        "type": "String",
+        "defaultValue": "Set-SLB-BackendPool"
+      },
+      "PowerShellRunbookDescription": {
+        "type": "String",
+        "defaultValue": "Sets the Standard Load Balancer's Backend Address Pool to the passive server"
+      },
+      "PowerShellRunbookWebhookName": {
+        "type": "String",
+        "defaultValue": "Set-SLB-BackendPool-Webhook"
+      },
+      "WebhookExpiryTime": {
+        "type": "String",
+        "defaultValue": "1/1/2050",
+        "metadata": {
+            "description": "Webhook Expiry time"
+        }
+      },
+            "AzureEnvironment": {
+        "type": "string",
+        "metadata": {
+          "description": "description"
+        },
+        "defaultValue":"AzureUSGovernment",
+        "allowedValues": [
+          "AzureCloud",
+          "AzureChinaCloud",
+          "AzureGermanCloud",
+          "AzureUSGovernment"
+        ]
+      },
+      "LoadBalancerRuleName": {
+        "type": "string",
+        "metadata": {
+          "description": "Name of the Load Balancing Rule to monitor and update the backend address pool when a fault is detected"
+        },
+        "defaultValue": "inside-out"
+      },
+
+      "_artifactsLocationSasToken": {
+        "type": "securestring",
+        "defaultValue": "",
+        "metadata": {
+          "description": "The sasToken required to access _artifactsLocation.  When the template is deployed using the accompanying scripts, a sasToken will be automatically generated"
+        }
+      },
+        "alertName": {
+            "type": "string",
+            "minLength": 1,
+            "metadata": {
+                "description": "Name of the alert"
+            }
+        },
+        "alertDescription": {
+            "type": "string",
+            "defaultValue": "This is a metric alert",
+            "metadata": {
+                "description": "Description of alert"
+            }
+        },
+        "alertSeverity": {
+            "type": "int",
+            "defaultValue": 3,
+            "allowedValues": [
+                0,
+                1,
+                2,
+                3,
+                4
+            ],
+            "metadata": {
+                "description": "Severity of alert {0,1,2,3,4}"
+            }
+        },
+        "isEnabled": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Specifies whether the alert is enabled"
+            }
+        },
+        "resourceId": {
+            "type": "string",
+            "minLength": 1,
+            "metadata": {
+                "description": "Full Resource ID of the resource emitting the metric that will be used for the comparison. For example /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroups/ResourceGroupName/providers/Microsoft.compute/virtualMachines/VM_xyz"
+            }
+        },
+        "metricName": {
+            "type": "string",
+            "minLength": 1,
+            "metadata": {
+                "description": "Name of the metric used in the comparison to activate the alert."
+            }
+        },
+        "metricNamespace": {
+            "type": "string",
+            "minLength": 1,
+            "metadata": {
+                "description": "Namespace of the metric used in the comparison to activate the alert."
+            }
+        },
+        "operator": {
+            "type": "string",
+            "defaultValue": "LessThan",
+            "allowedValues": [
+                "Equals",
+                "NotEquals",
+                "GreaterThan",
+                "GreaterThanOrEqual",
+                "LessThan",
+                "LessThanOrEqual"
+            ],
+            "metadata": {
+                "description": "Operator comparing the current value with the threshold value."
+            }
+        },
+        "threshold": {
+            "type": "string",
+            "defaultValue": "100",
+            "metadata": {
+                "description": "The threshold value at which the alert is activated."
+            }
+        },
+        "timeAggregation": {
+            "type": "string",
+            "defaultValue": "Average",
+            "allowedValues": [
+                "Average",
+                "Minimum",
+                "Maximum",
+                "Total",
+                "Count"
+            ],
+            "metadata": {
+                "description": "How the data that is collected should be combined over time."
+            }
+        },
+        "windowSize": {
+            "type": "string",
+            "defaultValue": "PT5M",
+            "allowedValues": [
+                "PT1M",
+                "PT5M",
+                "PT15M",
+                "PT30M",
+                "PT1H",
+                "PT6H",
+                "PT12H",
+                "PT24H"
+            ],
+            "metadata": {
+                "description": "Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format."
+            }
+        },
+        "evaluationFrequency": {
+            "type": "string",
+            "defaultValue": "PT1M",
+            "allowedValues": [
+                "PT1M",
+                "PT5M",
+                "PT15M",
+                "PT30M",
+                "PT1H"
+            ],
+            "metadata": {
+                "description": "How often the metric alert is evaluated represented in ISO 8601 duration format"
+            }
+        },
+        "actionGroupName": {
+            "type": "string",
+            "metadata": {
+                "description": "Unique name (within the Resource Group) for the Action group"
+            }
+        },
+        "actionGroupShortName": {
+            "type": "string",
+            "metadata": {
+                "description": "Short name (maximum 12 characters) for the Action group."
+            },
+            "maxLength": 12
+        },
+        "useCommonAlertSchema": {
+            "type": "bool",
+            "metadata": {
+                "description": "Enable the common alert schema"
+            },
+            "defaultValue": true
+        }
+    },
+    "variables": {
+        "automationTemplateUrl": "[uri(deployment().properties.templateLink.uri, 'automation-account/azuredeploy.json')]",
+        "automationArtifactsBaseUrl": "[uri(deployment().properties.templateLink.uri, 'automation-account')]",
+        "actionGroupTemplateUrl": "[uri(deployment().properties.templateLink.uri, 'action-groups/azuredeploy.json')]",
+        "alertTemplateUrl": "[uri(deployment().properties.templateLink.uri, 'alerts/azuredeploy.json')]"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2019-10-01",
+        "name": "automationAccountTemplate",
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri":"[variables('automationTemplateUrl')]",
+            "contentVersion":"1.0.0.0"
+          },
+          "parameters": {
+                "automationAccountName": {"value": "[parameters('automationAccountName')]"},
+                "automationAccountLocation": {"value": "[parameters('automationAccountLocation')]"},
+                "PowerShellRunbookName": {"value": "[parameters('PowerShellRunbookName')]"},
+                "PowerShellRunbookDescription": {"value": "[parameters('PowerShellRunbookDescription')]"},
+                "PowerShellRunbookWebhookName": {"value": "[parameters('PowerShellRunbookWebhookName')]"},
+                "WebhookExpiryTime": {"value": "[parameters('WebhookExpiryTime')]"},
+                "_artifactsLocation": {"value": "[variables('automationArtifactsBaseUrl')]"},
+                "_artifactsLocationSasToken": {"value": "[parameters('_artifactsLocationSasToken')]"},
+                "AzureEnvironment": {"value": "[parameters('AzureEnvironment')]"},
+                "LoadBalancerRuleName": {"value": "[parameters('LoadBalancerRuleName')]"}
+          }
+        }
+      },
+      {
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2019-10-01",
+        "name": "actionGroupTemplate",
+        "dependsOn":[
+            "[resourceId('Microsoft.Resources/deployments', 'automationAccountTemplate')]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri":"[variables('actionGroupTemplateUrl')]",
+            "contentVersion":"1.0.0.0"
+          },
+          "parameters": {
+                "actionGroupName": {"value": "[parameters('actionGroupName')]"},
+                "actionGroupShortName": {"value": "[parameters('actionGroupShortName')]"},
+                "automationAccountId": {"value": "[reference('automationAccountTemplate').outputs.automationAccountId.value]"},
+                "runbookName": {"value": "[parameters('PowerShellRunbookName')]"},
+                "webhookResourceId": {"value": "[reference('automationAccountTemplate').outputs.webhookResourceId.value]"},
+                "webhookName": {"value": "[parameters('PowerShellRunbookWebhookName')]"},
+                "webhookUri": {"value": "[reference('automationAccountTemplate').outputs.webhookUri.value]"},
+                "useCommonAlertSchema": {"value": "[parameters('useCommonAlertSchema')]"}
+          }
+        }
+      },      
+      {
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2019-10-01",
+        "name": "alertTemplate",
+        "dependsOn":[
+            "[resourceId('Microsoft.Resources/deployments', 'automationAccountTemplate')]",
+            "[resourceId('Microsoft.Resources/deployments','actionGroupTemplate')]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri":"[variables('alertTemplateUrl')]",
+            "contentVersion":"1.0.0.0"
+          },
+          "parameters":{
+              "alertName": {"value": "[parameters('alertName')]"},
+              "alertDescription": {"value": "[parameters('alertDescription')]"},
+              "alertSeverity": {"value": "[parameters('alertSeverity')]"},
+              "isEnabled": {"value": "[parameters('isEnabled')]"},
+              "resourceId": {"value": "[parameters('resourceId')]"},
+              "metricName": {"value": "[parameters('metricName')]"},
+              "metricNamespace": {"value": "[parameters('metricNamespace')]"},
+              "operator": {"value": "[parameters('operator')]"},
+              "threshold": {"value": "[parameters('threshold')]"},
+              "timeAggregation": {"value": "[parameters('timeAggregation')]"},
+              "evaluationFrequency": {"value": "[parameters('evaluationFrequency')]"},
+              "windowSize": {"value": "[parameters('windowSize')]"},
+              "actionGroupId": {"value": "[reference('actionGroupTemplate').outputs.actionGroupId.value]"}
+          }
+        }
+      }
+    ],
+    "outputs": {
+        "actionGroupId": {
+            "type": "string",
+            "value": "[reference('actionGroupTemplate').outputs.actionGroupId.value]"
+        },
+        "automationAccountId": {
+            "type": "string",
+            "value": "[reference('automationAccountTemplate').outputs.automationAccountId.value]"
+        },
+        "webhookResourceId": {
+            "type": "string",
+            "value": "[reference('automationAccountTemplate').outputs.webhookResourceId.value]"
+        },
+        "webhookUri": {
+            "type": "string",
+            "value": "[reference('automationAccountTemplate').outputs.webhookUri.value]"
+        }
+    }
+  }

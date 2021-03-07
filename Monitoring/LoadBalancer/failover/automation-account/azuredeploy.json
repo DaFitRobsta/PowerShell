@@ -34,6 +34,26 @@
             "description": "Webhook Expiry time"
         }
       },
+      "AzureEnvironment": {
+        "type": "string",
+        "metadata": {
+          "description": "description"
+        },
+        "defaultValue":"AzureUSGovernment",
+        "allowedValues": [
+          "AzureCloud",
+          "AzureChinaCloud",
+          "AzureGermanCloud",
+          "AzureUSGovernment"
+        ]
+      },
+      "LoadBalancerRuleName": {
+        "type": "string",
+        "metadata": {
+          "description": "Name of the Load Balancing Rule to monitor and update the backend address pool when a fault is detected"
+        },
+        "defaultValue": "inside-out"
+      },
       "_artifactsLocation": {
         "type": "string",
         "defaultValue": "https://raw.githubusercontent.com/DaFitRobsta/PowerShell/master/Alerts/",
@@ -87,7 +107,7 @@
               "logVerbose": "false",
               "description": "[parameters('PowerShellRunbookDescription')]",
               "publishContentLink": {
-                "uri": "[uri(parameters('_artifactsLocation'), concat('scripts/SetAzAlertsStatus-Webhook.ps1', parameters('_artifactsLocationSasToken')))]",
+                "uri": "[uri(parameters('_artifactsLocation'), concat('runbook/set-slb-backendpool.ps1', parameters('_artifactsLocationSasToken')))]",
                 "version": "1.0.0.0"
               }
             }
@@ -105,6 +125,10 @@
                 "expiryTime": "[parameters('WebhookExpiryTime')]",
                 "runbook": {
                     "name": "[parameters('PowerShellRunbookName')]"
+                },
+                "parameters": {
+                  "AzureEnvironment": "[parameters('AzureEnvironment')]",
+                  "LBRuleName":"[parameters('LoadBalancerRuleName')]"
                 }
             }
           },
@@ -146,6 +170,14 @@
       "webhookUri": {
         "type": "string",
         "value": "[reference(parameters('PowerShellRunbookWebhookName')).uri]"
+      },
+      "automationAccountId": {
+        "type": "string",
+        "value": "[resourceId('Microsoft.Automation/automationAccounts',parameters('automationAccountName'))]"
+      },
+      "webhookResourceId": {
+        "type": "string",
+        "value": "[resourceId('Microsoft.Automation/automationAccounts/webhooks',parameters('PowerShellRunbookWebhookName'))]"
       }
     }
   }

@@ -1,0 +1,97 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {   
+        "actionGroupName": {
+            "type": "string",
+            "metadata": {
+                "description": "Unique name (within the Resource Group) for the Action group."
+            },
+            "defaultValue": "ag-aaa-setlb-backend"
+        },
+        "actionGroupShortName": {
+            "type": "string",
+            "maxLength": 12,
+            "metadata": {
+                "description": "Short name (maximum 12 characters) for the Action group."
+            },
+            "defaultValue": "ag-setlb-be"
+        },
+        "automationAccountId": {
+            "type": "string",
+            "metadata": {
+                "description": "The automation account resource ID"
+            }
+        },
+        "runbookName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the Automation Account Runbook"
+            }
+        },
+        "webhookResourceId": {
+            "type": "string",
+            "metadata": {
+                "description": "Resource ID of the Automation Account Runbook Webhook"
+            }
+        },
+        "webhookName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the Automation Account Runbook Webhook"
+            }
+        },
+        "webhookUri": {
+            "type": "string",
+            "metadata": {
+                "description": "URI of the Automation Account Runbook Webhook"
+            }
+        },
+        "useCommonAlertSchema": {
+            "type": "bool",
+            "metadata": {
+                "description": "Enable the common alert schema"
+            },
+            "defaultValue": true
+        }                      
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "microsoft.insights/actionGroups",
+            "apiVersion": "2019-03-01",
+            "name": "[parameters('actionGroupName')]",
+            "location": "Global",
+            "dependsOn": [],
+            "properties": {
+                "groupShortName": "[parameters('actionGroupShortName')]",
+                "enabled": true,
+                "emailReceivers": [],
+                "smsReceivers": [],
+                "webhookReceivers": [],
+                "itsmReceivers": [],
+                "azureAppPushReceivers": [],
+                "automationRunbookReceivers": [
+                    {
+                        "automationAccountId": "[parameters('automationAccountId')]",
+                        "runbookName": "[parameters('runbookName')]",
+                        "webhookResourceId": "[parameters('webhookResourceId')]",
+                        "isGlobalRunbook": false,
+                        "name": "[parameters('webhookName')]",
+                        "serviceUri": "[parameters('webhookUri')]",
+                        "useCommonAlertSchema": "[parameters('useCommonAlertSchema')]"
+                    }
+                ],
+                "voiceReceivers": [],
+                "logicAppReceivers": [],
+                "azureFunctionReceivers": []
+            }
+        }
+    ],
+    "outputs": {
+        "actionGroupId":{
+            "type":"string",
+            "value":"[resourceId('Microsoft.Insights/actionGroups',parameters('actionGroupName'))]"
+        }
+    }
+}
