@@ -27,7 +27,7 @@
                 4
             ],
             "metadata": {
-                "description": "Severity of alert {0,1,2,3,4}"
+                "description": "Severity of alert {0 (Critical), 1 (Error), 2 (Warning), 3 (Informational), 4 (Verbose)}"
             }
         },
         "isEnabled": {

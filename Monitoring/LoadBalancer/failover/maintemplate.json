@@ -27,17 +27,10 @@
         "type": "String",
         "defaultValue": "Set-SLB-BackendPool-Webhook"
       },
-      "WebhookExpiryTime": {
-        "type": "String",
-        "defaultValue": "1/1/2050",
-        "metadata": {
-            "description": "Webhook Expiry time"
-        }
-      },
-            "AzureEnvironment": {
+      "AzureEnvironment": {
         "type": "string",
         "metadata": {
-          "description": "description"
+          "description": "Specify which Azure Cloud Environment: AzureCloud, AzureChinaCloud, AzureGermanCloud, AzureUSGovernment"
         },
         "defaultValue":"AzureUSGovernment",
         "allowedValues": [
@@ -87,7 +80,7 @@
                 4
             ],
             "metadata": {
-                "description": "Severity of alert {0,1,2,3,4}"
+                "description": "Severity of alert {0 (Critical), 1 (Error), 2 (Warning), 3 (Informational), 4 (Verbose)}"
             }
         },
         "isEnabled": {
@@ -109,14 +102,16 @@
             "minLength": 1,
             "metadata": {
                 "description": "Name of the metric used in the comparison to activate the alert."
-            }
+            },
+            "defaultValue": "DipAvailability"
         },
         "metricNamespace": {
             "type": "string",
             "minLength": 1,
             "metadata": {
                 "description": "Namespace of the metric used in the comparison to activate the alert."
-            }
+            },
+            "defaultValue": "Microsoft.Network/loadBalancers"
         },
         "operator": {
             "type": "string",
