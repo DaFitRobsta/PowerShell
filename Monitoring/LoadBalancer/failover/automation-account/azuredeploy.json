@@ -63,12 +63,12 @@
         }
       },
       "baseTime": {
-      "type": "string",
-      "defaultValue": "[utcNow('u')]",
-      "metadata": {
-        "description": "Leave default value"
+        "type": "string",
+        "defaultValue": "[utcNow('u')]",
+        "metadata": {
+          "description": "Leave default value"
+        }
       }
-    }
     },
     "variables": {
         "modules": [
