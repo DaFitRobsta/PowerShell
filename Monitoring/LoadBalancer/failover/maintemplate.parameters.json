@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "automationAccountName": {
-            "value": "" // TODO: Fill in parameter value
+            "value": "rl-wu2-dmo-aaa01"
         },
         "automationAccountLocation": {
             "value": "westus2"
@@ -18,7 +18,7 @@
             "value": "Set-SLB-BackendPool-Webhook"
         },
         "AzureEnvironment": {
-            "value": "AzureUSGovernment"
+            "value": "AzureCloud"
         },
         "LoadBalancerRuleName": {
             "value": "inside-out"
@@ -39,7 +39,7 @@
             "value": true
         },
         "resourceId": {
-            "value": "" // TODO: Fill in parameter value
+            "value": "/subscriptions/7447b514-687a-4370-9c17-5abad6dab9c4/resourceGroups/rl-wu2-dmo-np-rg01/providers/Microsoft.Network/loadBalancers/rl-wu2-dmo-np-slb01"
         },
         "metricName": {
             "value": "DipAvailability" 
