@@ -107,7 +107,7 @@
               "logVerbose": "false",
               "description": "[parameters('PowerShellRunbookDescription')]",
               "publishContentLink": {
-                "uri": "[uri(parameters('_artifactsLocation'), concat('/runbook/set-slb-backendpool.ps1', parameters('_artifactsLocationSasToken')))]",
+                "uri": "[uri(parameters('_artifactsLocation'), concat('runbook/set-slb-backendpool.ps1', parameters('_artifactsLocationSasToken')))]",
                 "version": "1.0.0.0"
               }
             }
