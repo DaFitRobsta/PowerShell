@@ -18,7 +18,7 @@
             "value": "Set-SLB-BackendPool-Webhook"
         },
         "WebhookExpiryTime": {
-            "value": "01/01/2050"
+            "value": "2050-01-01"
         },
         "AzureEnvironment": {
             "value": "AzureUSGovernment"
