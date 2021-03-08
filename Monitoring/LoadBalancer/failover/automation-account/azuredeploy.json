@@ -61,7 +61,14 @@
         "metadata": {
           "description": "The sasToken required to access _artifactsLocation.  When the template is deployed using the accompanying scripts, a sasToken will be automatically generated"
         }
+      },
+      "baseTime": {
+      "type": "string",
+      "defaultValue": "[utcNow('u')]",
+      "metadata": {
+        "description": "Leave default value"
       }
+    }
     },
     "variables": {
         "modules": [
@@ -74,7 +81,7 @@
                 "url": "https://www.powershellgallery.com/api/v2/package/Az.Network/4.6.0"
             }
         ],
-        "WebhookExpiryTime": "[dateTimeAdd(utcNow('u'), 'P10Y')]"
+        "WebhookExpiryTime": "[dateTimeAdd(parameters('baseTime'), 'P10Y')]"
     },
     "resources": [
       {
