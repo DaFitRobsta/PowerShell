@@ -62,9 +62,6 @@
         "evaluationFrequency": {
             "value": "PT1M"
         },
-        "actionGroupId": {
-            "value": ""
-        },
         "actionGroupName": {
             "value": "ag-aaa-setlb-backend"
         },
