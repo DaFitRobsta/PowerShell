@@ -17,9 +17,6 @@
         "PowerShellRunbookWebhookName": {
             "value": "Set-SLB-BackendPool-Webhook"
         },
-        "WebhookExpiryTime": {
-            "value": "1/1/2050"
-        },
         "AzureEnvironment": {
             "value": "AzureUSGovernment"
         },

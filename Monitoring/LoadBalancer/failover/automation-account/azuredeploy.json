@@ -27,13 +27,7 @@
         "type": "String",
         "defaultValue": "Set-SLB-BackendPool-Webhook"
       },
-      "WebhookExpiryTime": {
-        "type": "String",
-        "defaultValue": "2050-01-01",
-        "metadata": {
-            "description": "Webhook Expiry time"
-        }
-      },
+
       "AzureEnvironment": {
         "type": "string",
         "metadata": {
@@ -79,7 +73,8 @@
                 "name": "Az.Network",
                 "url": "https://www.powershellgallery.com/api/v2/package/Az.Network/4.6.0"
             }
-        ]
+        ],
+        "WebhookExpiryTime": "[dateTimeAdd(utcNow('u'), 'P10Y')]"
     },
     "resources": [
       {
@@ -122,7 +117,7 @@
             ],
             "properties": {
                 "isEnabled": true,
-                "expiryTime": "[concat(parameters('WebhookExpiryTime'),'T00:00:00.000Z')]",
+                "expiryTime": "[variables('WebhookExpiryTime')]",
                 "runbook": {
                     "name": "[parameters('PowerShellRunbookName')]"
                 },

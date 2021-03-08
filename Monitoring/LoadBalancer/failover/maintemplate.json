@@ -229,7 +229,6 @@
                 "PowerShellRunbookName": {"value": "[parameters('PowerShellRunbookName')]"},
                 "PowerShellRunbookDescription": {"value": "[parameters('PowerShellRunbookDescription')]"},
                 "PowerShellRunbookWebhookName": {"value": "[parameters('PowerShellRunbookWebhookName')]"},
-                "WebhookExpiryTime": {"value": "[parameters('WebhookExpiryTime')]"},
                 "_artifactsLocation": {"value": "[variables('automationArtifactsBaseUrl')]"},
                 "_artifactsLocationSasToken": {"value": "[parameters('_artifactsLocationSasToken')]"},
                 "AzureEnvironment": {"value": "[parameters('AzureEnvironment')]"},
