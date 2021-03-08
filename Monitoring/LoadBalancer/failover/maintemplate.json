@@ -208,7 +208,7 @@
     },
     "variables": {
         "automationTemplateUrl": "[uri(deployment().properties.templateLink.uri, 'automation-account/azuredeploy.json')]",
-        "automationArtifactsBaseUrl": "[uri(deployment().properties.templateLink.uri, 'automation-account')]",
+        "automationArtifactsBaseUrl": "[uri(deployment().properties.templateLink.uri, 'automation-account/')]",
         "actionGroupTemplateUrl": "[uri(deployment().properties.templateLink.uri, 'action-groups/azuredeploy.json')]",
         "alertTemplateUrl": "[uri(deployment().properties.templateLink.uri, 'alerts/azuredeploy.json')]"
     },
