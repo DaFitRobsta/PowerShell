@@ -133,7 +133,7 @@
             }
           },
           {
-            "type": "modules",
+            "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2015-10-31",
             "name": "[concat(parameters('automationAccountName'), '/','Az.Accounts')]",
             "dependsOn": [
