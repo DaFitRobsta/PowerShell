@@ -94,7 +94,7 @@
         },
         "resources": [
           {
-            "type": "runbooks",
+            "type": "Microsoft.Automation/automationAccounts/runbooks",
             "apiVersion": "2018-06-30",
             "name": "[parameters('PowerShellRunbookName')]",
             "location": "[parameters('automationAccountLocation')]",
@@ -113,7 +113,7 @@
             }
           },
           {
-            "type": "webhooks",
+            "type": "Microsoft.Automation/automationAccounts/webhooks",
             "apiVersion": "2015-10-31",
             "name": "[parameters('PowerShellRunbookWebhookName')]",
             "dependsOn": [
@@ -133,7 +133,7 @@
             }
           },
           {
-            "type": "modules",
+            "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2015-10-31",
             "name": "[concat(parameters('automationAccountName'), '/Az.Accounts')]",
             "dependsOn": [
