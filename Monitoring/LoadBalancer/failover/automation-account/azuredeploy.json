@@ -135,7 +135,7 @@
           {
             "type": "modules",
             "apiVersion": "2015-10-31",
-            "name": "[concat(parameters('automationAccountName'), '/Az.Accounts')]",
+            "name": "[concat(parameters('automationAccountName'), '/','Az.Accounts')]",
             "dependsOn": [
                 "[parameters('automationAccountName')]"
             ],
