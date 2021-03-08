@@ -179,7 +179,7 @@
       },
       "webhookResourceId": {
         "type": "string",
-        "value": "[resourceId('Microsoft.Automation/automationAccounts/webhooks',parameters('PowerShellRunbookWebhookName'))]"
+        "value": "[reference('Microsoft.Automation/automationAccounts/webhooks',parameters('PowerShellRunbookWebhookName'))]"
       }
     }
   }
