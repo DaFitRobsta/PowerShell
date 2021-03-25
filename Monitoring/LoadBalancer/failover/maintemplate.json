@@ -205,7 +205,8 @@
         "automationTemplateUrl": "[uri(deployment().properties.templateLink.uri, 'automation-account/azuredeploy.json')]",
         "automationArtifactsBaseUrl": "[uri(deployment().properties.templateLink.uri, 'automation-account/')]",
         "actionGroupTemplateUrl": "[uri(deployment().properties.templateLink.uri, 'action-groups/azuredeploy.json')]",
-        "alertTemplateUrl": "[uri(deployment().properties.templateLink.uri, 'alerts/slb-backend-alert.json')]"
+        "alertTemplateUrl": "[uri(deployment().properties.templateLink.uri, 'alerts/slb-backend-alert.json')]",
+        "azureEnvironment": "[environment().name]"
     },
     "resources": [
       {
@@ -226,7 +227,7 @@
                 "PowerShellRunbookWebhookName": {"value": "[parameters('PowerShellRunbookWebhookName')]"},
                 "_artifactsLocation": {"value": "[variables('automationArtifactsBaseUrl')]"},
                 "_artifactsLocationSasToken": {"value": "[parameters('_artifactsLocationSasToken')]"},
-                "AzureEnvironment": {"value": "[parameters('AzureEnvironment')]"},
+                "AzureEnvironment": {"value": "[variables('azureEnvironment')]"},
                 "LoadBalancerRuleName": {"value": "[parameters('LoadBalancerRuleName')]"}
           }
         }
