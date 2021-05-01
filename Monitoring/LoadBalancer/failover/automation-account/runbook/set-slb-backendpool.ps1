@@ -66,7 +66,7 @@ if ($WebhookData) {
         # Get the backendPool IP Address that failed from alertContext
         foreach($dimension in $AlertContext.condition.allOf[0].dimensions)
         {
-            if($dimension.name -eq "CaAddress")
+            if($dimension.name -eq "BackendIPAddress")
             {
                 $backendPoolAddress = $dimension.value
             }
@@ -141,6 +141,7 @@ if ($WebhookData) {
                 $slbProtocol = $slbRule.Protocol
                 $slbFEPort = $slbRule.FrontendPort
                 $slbBEPort = $slbRule.BackendPort
+                $slbBEAddressPoolId = $slbRule.BackendAddressPool.Id
 
                 $slbProbe = $slb | Get-AzLoadBalancerProbeConfig -Name $slbProbeName
 
@@ -153,9 +154,10 @@ if ($WebhookData) {
                         continue
                     }
                     else {
-                        $Nic = Get-AzNetworkInterface -ResourceId ($bePool.BackendIpConfigurations.id).Substring(0, ($bePool.BackendIpConfigurations.id).LastIndexOf("ipConfigurations") - 1)
-                        $IPAddress = (Get-AzNetworkInterfaceIpConfig -NetworkInterface $Nic).PrivateIpAddress
-                        if($IPAddress -ne $backendPoolAddress){
+                        #$Nic = Get-AzNetworkInterface -ResourceId ($bePool.BackendIpConfigurations.id).Substring(0, ($bePool.BackendIpConfigurations.id).LastIndexOf("ipConfigurations") - 1)
+                        #$IPAddress = (Get-AzNetworkInterfaceIpConfig -NetworkInterface $Nic).PrivateIpAddress
+                        # if($IPAddress -ne $backendPoolAddress)
+                        if($bePool.Id -ne $slbBEAddressPoolId){
                             $slb | Set-AzLoadBalancerRuleConfig -Name $LBRuleName -BackendAddressPool $bePool -FrontendIpConfiguration $slb.FrontendIpConfigurations[0] -Protocol $slbProtocol -FrontendPort $slbFEPort -BackendPort $slbBEPort -Probe $slbProbe
                             $slb | Set-AzLoadBalancer
                             "Backend Pool set to - $($bePool.Name)"
