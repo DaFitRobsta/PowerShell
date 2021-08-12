@@ -1,0 +1,18 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "lawName": {
+            "value": "rz-wu3-sub-quota-law01"
+        },
+        "funappName": {
+            "value": "subscription-quota-funapp"
+        },
+        "Locations": {
+            "value": "westus, westus2, eastus2"
+        },
+        "emailUser01": {
+            "value": "somebody@contoso.com"
+        }
+    }
+}

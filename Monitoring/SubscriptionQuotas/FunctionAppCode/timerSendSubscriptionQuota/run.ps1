@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-Update Azure PowerShell modules in an Azure Automation account.
+Sends Subscription Quota and Usages to a Log Analytics Workspace
 
 .DESCRIPTION
 Azure Resource Quotas into a Log Analytics Workspace (Using PowerShell)
