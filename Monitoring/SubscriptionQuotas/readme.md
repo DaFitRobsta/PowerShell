@@ -14,11 +14,14 @@ Through the use of an Azure Function App, triggered via Timer, it runs every 24 
 
 - Log Analytics Workspace
 - Workbook
+  - `Azure Subscription(s) Quotas and Usages` contains 3 views based on the providers (compute, network, storage)
 - App Service Plan (Consumption Plan)
 - Function App
 - Storage Account
 - Action Group
+  - Creates one user with a single email address to receive alerts
 - Alert
+  - A sample alert named `Subscription-Compute-Quota-Usage-Warning` triggers when the compute provider's usage is greater than 80%
 
 ## PowerShell Deployment
 
