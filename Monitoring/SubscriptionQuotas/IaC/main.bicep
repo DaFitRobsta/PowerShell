@@ -2,11 +2,18 @@
 @description('Log Analytics Name')
 param lawName string
 
+// Workbook name based on GUID
+param workbookName string = guid('Azure Subscription Quotas and Usages')
+param workbookSerializedData string
+
 @description('Name of the Function App')
 param funappName string = 'rz-wu2-quota-pd-posh01'
 
 @description('A list of locations for each of the above subscriptions to gather quota information on. This is formatted ["West US", "East US 2", "etc"]')
 param Locations string = 'westus'
+
+@description('Name of the email recipent')
+param emailUserName string
 
 @description('Enter an email address to send alerts to')
 param emailUser01 string
@@ -22,6 +29,20 @@ resource law 'Microsoft.OperationalInsights/workspaces@2021-06-01' = {
 }
 output lawPrimaryKey string = listkeys(law.id, '2021-06-01').primarySharedKey
 output lawID string = law.properties.customerId
+
+// Workbook Example
+resource lawWorkbook 'Microsoft.Insights/workbooks@2021-03-08' = {
+  name: workbookName
+  location: location
+  kind: 'shared'
+  properties: {
+    serializedData: workbookSerializedData
+    category: 'workbook'
+    displayName: 'Azure Subscription(s) Quotas and Usages'
+    sourceId: law.id
+    version: '1.0'
+  }
+}
 
 // Create a function app, consumption (serverless)
 // App Service Plan
@@ -114,7 +135,7 @@ resource actionGroup 'microsoft.insights/actionGroups@2019-06-01' = {
     groupShortName: 'ag-sub-usage'
     emailReceivers: [
       {
-        name: 'User01'
+        name: emailUserName
         emailAddress: emailUser01
         useCommonAlertSchema: true
       }
@@ -142,7 +163,7 @@ resource sampleAlert 'Microsoft.Insights/scheduledQueryRules@2021-02-01-preview'
           query: '''AzureQuota_CL
           | where Location_s in('westus', 'West US')
           | where Category =~ 'compute'
-          | where Usage_d > 0.10
+          | where Usage_d > 0.80
           | summarize ['Current Usage'] = avg(CurrentValue_d) by ResourceType = Name_s, Subscription = Subscription_s'''
           timeAggregation: 'Count'
           operator: 'GreaterThan'
@@ -154,7 +175,8 @@ resource sampleAlert 'Microsoft.Insights/scheduledQueryRules@2021-02-01-preview'
         }
       ]
     }
-    autoMitigate: true
+    // autoMitigate has to be set to false since the alert is fired once a day
+    autoMitigate: false
     actions: {
       actionGroups: [
         actionGroup.id
