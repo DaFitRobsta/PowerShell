@@ -161,10 +161,11 @@ resource sampleAlert 'Microsoft.Insights/scheduledQueryRules@2021-02-01-preview'
       allOf: [
         {
           query: '''AzureQuota_CL
-          | where Location_s in('westus', 'West US')
           | where Category =~ 'compute'
           | where Usage_d > 0.80
-          | summarize ['Current Usage'] = avg(CurrentValue_d) by ResourceType = Name_s, Subscription = Subscription_s'''
+          | summarize arg_max(TimeGenerated, *) by Name_s, Subscription_s, Location_s, Category, Limit_d, CurrentValue_d, Usage_d
+          | project TimeGenerated, ['Resource Name'] = Name_s, Subscription_s, Location_s, Category, Limit_d, CurrentValue_d, Usage_d
+          | order by Usage_d desc'''
           timeAggregation: 'Count'
           operator: 'GreaterThan'
           threshold: 0
