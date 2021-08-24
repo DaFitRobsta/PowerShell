@@ -37,6 +37,12 @@ With [Azure Bicep](https://docs.microsoft.com/en-us/azure/azure-resource-manager
 PS C:\repos\SubscriptionQuotas> .\PublishFunction.ps1
 ```
 
+## Workbook Sample
+
+Showing all compute resources in all regions where usage is greater than 0:
+
+![Azure Subscription(s) Quotas and Usages - Compute Screenshot](/Monitoring/SubscriptionQuotas/images/AzSubQuota-Workbook-01.png "Azure Subscription(s) Quotas and Usages - Compute Screenshot")
+
 ## Sample KQL Queries
 
 - Show all Resource Types with a usage greater than .1 in a Column Chart (stacked)
