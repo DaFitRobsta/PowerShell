@@ -153,6 +153,7 @@ resource sampleAlert 'Microsoft.Insights/scheduledQueryRules@2021-02-01-preview'
     severity: 2
     enabled: true
     evaluationFrequency: 'P1D'
+    skipQueryValidation: true
     scopes: [
       law.id
     ]

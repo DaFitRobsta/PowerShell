@@ -6,6 +6,7 @@ param (
     $AzureEnvironment='AzureCloud'
 )
 
+# Create a Compressed ZIP file representing the Function App.
 $mypath = Split-Path $MyInvocation.MyCommand.Path
 $functionAppPath = $mypath + "\FunctionAppCode"
 
@@ -21,10 +22,8 @@ foreach ($file in get-childitem -Path $functionAppPath) {
 
         $FileToSendArray += $file.fullname 
 
-    } 
-
+    }
 } 
-
 compress-archive -Path $FileToSendArray -DestinationPath $TmpFuncZipDeployPath -Force
 
 # Deploy ZIP file to Azure Function App
