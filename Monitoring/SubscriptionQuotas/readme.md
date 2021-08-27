@@ -6,9 +6,11 @@ At the present, there isn't a native Azure method for alerting when resource usa
 
 Through the use of an Azure Function App, triggered via Timer, it runs every 24 hours to pull data from Subscription(s) and inserts the usages into a Log Analytics Workspace. Beyond ingesting the data, there's an included sample alert that emails if compute quota is greater than 80%.
 
-## Requirements
+## Prerequisites
 
 - [Bicep](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/bicep-tutorial-create-first-bicep?tabs=azure-powershell) - Read through the Bicep tutorial to setup your environment.
+- Update the values in the `main.parameters.json` to match your naming convention for resources.
+- Post deployment, a user with subscription or management group Owner or User Access Administrator rights will need to grant the Function App Managed Identity **Reader** access at the subscription(s) and/or Management Group scope.
 
 ## Resources Deployed
 
@@ -45,7 +47,7 @@ Showing all compute resources in all regions where usage is greater than 0:
 
 ## Sample KQL Queries
 
-- Show all Resource Types with a usage greater than .1 in a Column Chart (stacked)
+- Show all Resource Types with a usage greater than .1 (10%) in a Column Chart (stacked)
 
 ```KQL
 AzureQuota_CL
@@ -57,7 +59,7 @@ AzureQuota_CL
 | render columnchart with(kind=stacked)
 ```
 
-- Show all Resource (Quota) Names by a specific Azure region where the usage is greater than .05 in a column chart (unstacked)
+- Show all Resource (Quota) Names by a specific Azure region where the usage is greater than .05 (5%) in a column chart (unstacked)
 
 ```KQL
 AzureQuota_CL
