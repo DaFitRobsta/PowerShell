@@ -10,6 +10,6 @@ $nsgs = Get-AzNetworkSecurityGroup | Where-Object {$_.Location -eq "eastus"}
 
 Foreach ($nsg in $nsgs)
 {
-	Write-host "Setting NSG Flogs for $($nsg.Name)"
+	Write-host "Setting NSG FlowLogs for $($nsg.Name)"
 	Set-AzNetworkWatcherConfigFlowLog -NetworkWatcher $NW -TargetResourceId $nsg.Id -StorageAccountId $storageAccount -EnableFlowLog $true -FormatType Json -FormatVersion 2 -EnableRetention $true -RetentionInDays 1 -EnableTrafficAnalytics -WorkspaceResourceId $workspaceResourceId -WorkspaceGUID $workspaceGUID -WorkspaceLocation $workspaceLocation -TrafficAnalyticsInterval 10
 }
